@@ -34,25 +34,7 @@ class Student:
     if not isinstance(other, Student):
       print('На наших курсах нет студента с такими ФИО')
       return
-    return self.average_grades() < other.average_grades()
-        
-
-
-meri_crawley=Student('Мэри', 'Кроули', 'woman')
-meri_crawley.finished_courses.append('Html, ''JS')
-meri_crawley.add_some('Python, ' 'CSS')
-meri_crawley.add_some_foo('Python', [10,10,8])
-meri_crawley.average_grades()
-print(meri_crawley)
-
-edith_crawley=Student('Эдит', 'Кроули', 'woman')
-edith_crawley.finished_courses.append('CSS, ''JS')
-edith_crawley.add_some('Python, ' 'HTML')
-edith_crawley.add_some_foo('Python', [10,10,9])
-edith_crawley.average_grades()
-print(edith_crawley)
-print(meri_crawley < edith_crawley)
-
+    return self.average_grades() < other.average_grades()  
 
 class Mentor:
 
@@ -103,18 +85,6 @@ class Lecturer(Mentor):
       return
     return self.average_grades() < other.average_grades()
   
-robert_crawley=Lecturer('Роберт', 'Кроули')
-robert_crawley.add_some([10,10,10])
-robert_crawley.add_some_foo('Python', [10,10,10])
-robert_crawley.average_grades()
-print(robert_crawley)
-john_bates=Lecturer('Роберт', 'Кроули')
-john_bates.add_some([10,9,9])
-john_bates.add_some_foo('Python', [10,9,9])
-john_bates.average_grades()
-print(john_bates)
-print(john_bates < robert_crawley)
-
 class Reviewer(Mentor):
   def rate_hw(self, student, course, grade):
     if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
@@ -128,8 +98,68 @@ class Reviewer(Mentor):
     res_reviewer = f'Имя = {self.name}  \nФамилия = {self.surname}'
     return res_reviewer
 
-
+#CODE REALIZATION
+#REVIEWER
 some_reviewer=Reviewer('Кора', 'Кроули')
 print(some_reviewer)
 
+#STUDENT
+student_list=[]
+samvel_tarley=Student('Семвел', 'Тарли', 'man')
+samvel_tarley.finished_courses.append('Html, ''JS')
+samvel_tarley.add_some('Python, ' 'CSS')
+samvel_tarley.add_some_foo('Python', [10,10,8])
+samvel_tarley.average_grades()
+student_list.append((samvel_tarley.name +' '+samvel_tarley.surname))
+print(samvel_tarley)
 
+sansa_stark=Student('Санса', 'Старк', 'woman')
+sansa_stark.finished_courses.append('CSS, ''JS')
+sansa_stark.add_some('Python, ' 'HTML')
+sansa_stark.add_some_foo('Python', [10,10,9])
+sansa_stark.average_grades()
+student_list.append((sansa_stark.name +' '+sansa_stark.surname))
+print(sansa_stark)
+
+print(samvel_tarley < sansa_stark)
+
+def average_student_grade(student_list, course_name):
+  for student in student_list:
+    if course_name in Student.courses_in_progress:
+      if course_name in Student.grades:
+        all_st_average_grades=[] 
+        avg_st = sum(student.grades.get(course_name)) / len(student.grades.get(course_name))
+        all_st_average_grades.append(avg_st)
+        all_avg_st = sum(all_st_average_grades) / len(all_st_average_grades)
+        res = print(f'Средний балл студента по курсу {course_name} = {round(all_avg_st, 2)}')
+        return res
+
+#LECTURER
+lecturer_list=[]
+john_snow=Lecturer('Джон', 'Сноу')
+john_snow.add_some([10,10,10])
+john_snow.add_some_foo('Python', [10,10,10])
+john_snow.average_grades()
+lecturer_list.append((john_snow.name +' '+john_snow.surname))
+print()
+
+cersei_lannister=Lecturer('Серсея', 'Ланнистер')
+cersei_lannister.add_some([10,9,9])
+cersei_lannister.add_some_foo('Python', [10,9,9])
+cersei_lannister.average_grades()
+lecturer_list.append((cersei_lannister.name +' '+cersei_lannister.surname))
+print(cersei_lannister)
+
+print(cersei_lannister < john_snow)
+
+
+def average_lecturer_grade(lecturer_list, course_name):
+  for lecturer in lecturer_list:
+    if course_name in Lecturer.courses_attached:
+      if course_name in Lecturer.course_grade:
+        all_lec_average_grades=[] 
+        avg = sum(lecturer.course_grade.get(course_name)) / len(lecturer.course_grade.get(course_name))
+        all_lec_average_grades.append(avg)
+        all_avg_lec = sum(all_lec_average_grades) / len(all_lec_average_grades)
+        res = print(f'Средний балл за лекции по курсу {course_name} = {round(all_avg_lec, 2)}')
+        return res
